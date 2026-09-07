@@ -22,4 +22,14 @@ function Chat() {
     const [roomName, setRoomName] = useState("");
     const [messages, setMessages] = useState([]);
     const [{ user }, dispatch] = useStateValue();
+
+useEffect(() => {
+if (roomId) {
+    db.collation('rooms').doc(roomId).onSnapshot((snapshot) =>
+        setRoomName(snapshot.data().name) );
+
+    db.colaction('rooms').doc(roomId).collection('messages').orderBy('timestamp', 'asc').onSnapshot((snapshot) => 
+         setMessages(snapshot.docs.map((doc) => doc.data())));
+  }
+    })
 }
